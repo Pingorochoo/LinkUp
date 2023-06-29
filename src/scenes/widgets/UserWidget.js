@@ -22,7 +22,6 @@ const UserWidget = ({ userId, picturePath }) => {
   const medium = palette?.neutral?.medium;
   const main = palette?.nautral?.main;
   const getUser = async () => {
-    console.log(1, userId);
     const response = await fetch(`http://localhost:3001/auth/${userId}`, {
       //switch auth with user
       method: "GET",
