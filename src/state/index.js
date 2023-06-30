@@ -34,7 +34,7 @@ export const authSlice = createSlice({
     setPost: (state, action) => {
       //idea para mejorar el rendimiendo que tal si hacermos un objeto donde las llaves sean el id del post y el valor el post, asi no tenemos que recorrer un arreglo si no simplemente acceder a el con su clave
       const updatedPosts = state.posts.map((post) => {
-        return post._id === action.payload.post_id ? action.payload.post : post;
+        return post._id === action.payload.post._id ? action.payload.post : post;
       });
       state.posts = updatedPosts;
     },
