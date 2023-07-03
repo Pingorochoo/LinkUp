@@ -32,7 +32,6 @@ const Navbar = () => {
   const user = useSelector((state) => state.user);
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)"); //retorna true si cumple con la condificon min-width: 1000px
   const theme = useTheme();
-  // console.log(1,theme.palette.neutral);
   const neutralLight = theme?.palette.neutral.light;
   const dark = theme?.palette.neutral.dark;
   const background = theme?.palette.background.default;
@@ -48,7 +47,7 @@ const Navbar = () => {
           fontWeight="bold"
           fontSize="clamp(1rem, 2rem, 2.25rem)"
           color="primary"
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/home")}
           sx={{
             "&:hover": {
               color: primaryLight,

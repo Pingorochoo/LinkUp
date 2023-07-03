@@ -16,7 +16,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
     dispatch(setPosts({ posts: data }));
   };
   const getUserPosts = async () => {
-    const response = await fetch(`http://localhost:3001/${userId}`, {
+    const response = await fetch(`http://localhost:3001/post/${userId}`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -28,7 +28,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
       getUserPosts();
     } else getPosts();
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
-
+  if (!userId) return null;
   return (
     <>
       {posts.map(
