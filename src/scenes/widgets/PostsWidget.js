@@ -13,6 +13,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
       headers: { Authorization: `Bearer ${token}` },
     });
     const data = await response.json();
+    console.log('setPosts',data)
     dispatch(setPosts({ posts: data }));
   };
   const getUserPosts = async () => {
@@ -29,9 +30,11 @@ const PostsWidget = ({ userId, isProfile = false }) => {
     } else getPosts();
   }, []); //eslint-disable-line react-hooks/exhaustive-deps
   if (!userId) return null;
+  console.log('PostWifget',posts)
   return (
     <>
-      {posts.map(
+      {
+      posts.map(
         ({
           _id,
           userId,

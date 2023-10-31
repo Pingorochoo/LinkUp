@@ -70,7 +70,7 @@ const Form = () => {
   const isRegister = pageType === "register";
   
   const login = async (values, onSubmitProps) => {
-    console.log('login');
+    // console.log('login');
     const loggedInResponse = await fetch("http://localhost:3001/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -113,7 +113,7 @@ const Form = () => {
   };
 
   const handleFormSubmit = async (values, onSubmitProps) => {
-    console.log(isLogin);
+    // console.log(isLogin);
     if (isLogin) await login(values, onSubmitProps);
     else if (isRegister) await register(values, onSubmitProps);
   };
