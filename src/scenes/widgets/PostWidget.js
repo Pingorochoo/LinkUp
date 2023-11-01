@@ -7,6 +7,7 @@ import {
 import { Box, Divider, IconButton, Typography, useTheme } from "@mui/material";
 import FlexBetween from "components/FlexBetween";
 import Friend from "components/Friend";
+import InsertComment from "components/InsertComment";
 import WidgetWrapper from "components/WidgetWrapper";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -26,7 +27,7 @@ const PostWidget = ({
   const [isComments, setIsComments] = useState(false);
   const dispatch = useDispatch();
   const token = useSelector((state) => state.token);
-  const { _id: loggedInUserId } = useSelector((state) => state.user);
+  const { _id: loggedInUserId,picturePath:loggedInUserPicturePath } = useSelector((state) => state.user);
   const isLiked = Boolean(likes[loggedInUserId]);
   const likeCount = Object.keys(likes).length;
   const { palette } = useTheme();
@@ -102,6 +103,7 @@ const PostWidget = ({
           })}
         </Box>
       )}
+      <InsertComment userPicturePath={loggedInUserPicturePath} />
     </WidgetWrapper>
   );
 };

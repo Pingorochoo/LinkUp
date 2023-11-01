@@ -138,10 +138,10 @@ const MyPostWidget = ({ picturePath }) => {
               <AttachFileOutlined sx={{ color: mediumMain }} />
               <Typography color={mediumMain}>Attachment</Typography>
             </FlexBetween>
-            <MicOutlined gap="0.25rem">
+            {/* <MicOutlined gap="0.25rem">
               <GifBoxOutlined sx={{ color: mediumMain }} />
               <Typography color={mediumMain}>Audio</Typography>
-            </MicOutlined>
+            </MicOutlined> */}
           </>
         ) : (
           <FlexBetween gap="0.25rem">
