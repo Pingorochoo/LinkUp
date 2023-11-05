@@ -13,7 +13,6 @@ const PostsWidget = ({ userId, isProfile = false }) => {
       headers: { Authorization: `Bearer ${token}` },
     });
     const data = await response.json();
-    console.log('setPosts',data)
     dispatch(setPosts({ posts: data }));
   };
   const getUserPosts = async () => {
@@ -25,16 +24,15 @@ const PostsWidget = ({ userId, isProfile = false }) => {
     dispatch(setPosts({ posts: data }));
   };
   useEffect(() => {
-    if (isProfile) {
-      getUserPosts();
-    } else getPosts();
-  }, []); //eslint-disable-line react-hooks/exhaustive-deps
+    if (isProfile) getUserPosts();
+    else getPosts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   if (!userId) return null;
-  console.log('PostWifget',posts)
+  // console.log("PostWifget", posts);
   return (
     <>
-      {
-      posts.map(
+      {posts.map(
         ({
           _id,
           userId,
@@ -45,7 +43,6 @@ const PostsWidget = ({ userId, isProfile = false }) => {
           picturePath,
           userPicturePath,
           likes,
-          comments,
         }) => (
           <PostWidget
             key={_id}
@@ -57,7 +54,6 @@ const PostsWidget = ({ userId, isProfile = false }) => {
             picturePath={picturePath}
             userPicturePath={userPicturePath}
             likes={likes}
-            comments={comments}
           />
         )
       )}

@@ -9,7 +9,7 @@ import FlexBetween from "components/FlexBetween";
 import Friend from "components/Friend";
 import InsertComment from "components/InsertComment";
 import WidgetWrapper from "components/WidgetWrapper";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPost } from "state";
 
@@ -22,12 +22,14 @@ const PostWidget = ({
   picturePath,
   userPicturePath,
   likes,
-  comments,
 }) => {
   const [isComments, setIsComments] = useState(false);
+  const [comments, setComments] = useState([]);
+  const [commentsCount, setCommentsCount] = useState(0);
   const dispatch = useDispatch();
   const token = useSelector((state) => state.token);
-  const { _id: loggedInUserId,picturePath:loggedInUserPicturePath } = useSelector((state) => state.user);
+  const { _id: loggedInUserId, picturePath: loggedInUserPicturePath } =
+    useSelector((state) => state.user);
   const isLiked = Boolean(likes[loggedInUserId]);
   const likeCount = Object.keys(likes).length;
   const { palette } = useTheme();
@@ -41,9 +43,34 @@ const PostWidget = ({
         "Content-Type": "application/json",
       },
     });
-    const updatedPost = await response.json();
-    dispatch(setPost({ post: updatedPost }));
+    const post = await response.json();
+    dispatch(setPost({ post }));
   };
+  const getAndSetComments = async () => {
+    const res = await fetch(
+      `http://localhost:3001/post/comment/getCommentBypost/${postId}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const postComments = await res.json();
+    setComments(postComments);
+    setCommentsCount(postComments.length);
+    return postComments;
+  };
+  const toogleComments = async () => {
+    if (isComments) return setIsComments(false);
+    setIsComments(true);
+  };
+  useEffect(() => {
+    getAndSetComments();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <WidgetWrapper m="2rem 0">
       <Friend
@@ -66,22 +93,25 @@ const PostWidget = ({
       )}
       <FlexBetween mt="0.25rem">
         <FlexBetween gap="1rem">
-          <FlexBetween gap="0.3rem">
-            <IconButton onClick={patchLike}>
+          <FlexBetween>
+            <IconButton
+              onClick={patchLike}
+              sx={{ paddingInline: "0rem .2rem" }}
+            >
               {isLiked ? (
                 <FavoriteOutlined sx={{ color: primary }} />
               ) : (
                 <FavoriteBorderOutlined />
               )}
             </IconButton>
-            <Typography>{likeCount}</Typography>
+            <Typography fontSize="18px">{likeCount}</Typography>
           </FlexBetween>
           <FlexBetween>
             <FlexBetween gap="0.3rem">
-              <IconButton onClick={() => setIsComments(!isComments)}>
+              <IconButton onClick={toogleComments}>
                 <ChatBubbleOutlineOutlined />
               </IconButton>
-              <Typography>{comments.length}</Typography>
+              <Typography fontSize="18px">{commentsCount}</Typography>
             </FlexBetween>
           </FlexBetween>
         </FlexBetween>
@@ -103,7 +133,13 @@ const PostWidget = ({
           })}
         </Box>
       )}
-      <InsertComment userPicturePath={loggedInUserPicturePath} />
+      <InsertComment
+        userId={loggedInUserId}
+        userPicturePath={loggedInUserPicturePath}
+        postId={postId}
+        getAndSetComments={getAndSetComments}
+        setCommentsCount={setCommentsCount}
+      />
     </WidgetWrapper>
   );
 };

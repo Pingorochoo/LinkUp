@@ -29,17 +29,23 @@ export const authSlice = createSlice({
       state.user.friends = action.payload.friends;
     },
     setPosts: (state, action) => {
+      if (action.payload.posts.length <= 0)
+        return console.error("posts not exists");
       state.posts = action.payload.posts;
     },
     setPost: (state, action) => {
       //idea para mejorar el rendimiendo que tal si hacermos un objeto donde las llaves sean el id del post y el valor el post, asi no tenemos que recorrer un arreglo si no simplemente acceder a el con su clave
+      if (!action.payload.post) return console.error("post not exists");
       const updatedPosts = state.posts.map((post) => {
-        return post._id === action.payload.post._id ? action.payload.post : post;
+        return post._id === action.payload.post._id
+          ? action.payload.post
+          : post;
       });
       state.posts = updatedPosts;
     },
   },
 });
 
-export const {setMode, setLogin, setLogout, setFriends, setPosts, setPost}=authSlice.actions
-export default authSlice.reducer
+export const { setMode, setLogin, setLogout, setFriends, setPosts, setPost } =
+  authSlice.actions;
+export default authSlice.reducer;

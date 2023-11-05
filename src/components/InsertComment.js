@@ -2,14 +2,34 @@ import { Box, InputBase, useTheme } from "@mui/material";
 import UserImage from "./UserImage";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
 import { useState } from "react";
-const InsertComment = ({ userPicturePath }) => {
+const InsertComment = ({
+  userId,
+  userPicturePath,
+  postId,
+  getAndSetComments,
+  setCommentsCount,
+}) => {
   const { palette } = useTheme();
   const [comment, setComment] = useState("");
-  const handleComment = () => {
-    console.log("ga");
+  const handleComment = async () => {
+    if (comment.trim() === "") return;
+    const res = await fetch(`http://localhost:3001/post/comment/${postId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json", // Establece el encabezado para indicar que estás enviando JSON en el cuerpo.
+      },
+      body: JSON.stringify({
+        userId,
+        comment,
+      }),
+    });
+    const comments = await res.json();
+    if (comments.length > 0) getAndSetComments(comments);
+    setCommentsCount(comments.length);
+    setComment("");
   };
   const handleKeyDown = (e) => {
-    if (e.key === "Enter") handleComment();
+    if (e.key === "Enter") return handleComment();
   };
   return (
     <Box mt=".5rem" display="flex" gap=".4rem">
