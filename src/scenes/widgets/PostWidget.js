@@ -4,7 +4,8 @@ import {
   FavoriteOutlined,
   ShareOutlined,
 } from "@mui/icons-material";
-import { Box, Divider, IconButton, Typography, useTheme } from "@mui/material";
+import { Box, IconButton, Typography, useTheme } from "@mui/material";
+import Comment from "components/Comment";
 import FlexBetween from "components/FlexBetween";
 import Friend from "components/Friend";
 import InsertComment from "components/InsertComment";
@@ -28,8 +29,12 @@ const PostWidget = ({
   const [commentsCount, setCommentsCount] = useState(0);
   const dispatch = useDispatch();
   const token = useSelector((state) => state.token);
-  const { _id: loggedInUserId, picturePath: loggedInUserPicturePath } =
-    useSelector((state) => state.user);
+  const {
+    _id: loggedInUserId,
+    picturePath: loggedInUserPicturePath,
+    firstName: loggedInUserfirstName,
+    lastName: loggedInUserlastName,
+  } = useSelector((state) => state.user);
   const isLiked = Boolean(likes[loggedInUserId]);
   const likeCount = Object.keys(likes).length;
   const { palette } = useTheme();
@@ -120,14 +125,19 @@ const PostWidget = ({
         </IconButton>
       </FlexBetween>
       {isComments && (
-        <Box>
-          {comments.map((comment, i) => {
+        <Box display="flex" flexDirection="column" gap=".2rem">
+          {comments.map(({ comment, user, likes, picturePath }, i) => {
             return (
               <Box key={`${name}-${i}`}>
-                <Divider />
-                <Typography sx={{ color: main, m: "0.5rem 0", pl: "1rem" }}>
+                <Comment
+                  userPicturePath={user.picturePath}
+                  name={user.name}
+                  location={user.location}
+                  likes={likes}
+                  picturePath={picturePath}
+                >
                   {comment}
-                </Typography>
+                </Comment>
               </Box>
             );
           })}

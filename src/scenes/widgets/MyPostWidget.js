@@ -4,7 +4,6 @@ import {
   EditOutlined,
   GifBoxOutlined,
   ImageOutlined,
-  MicOutlined,
   MoreHorizOutlined,
 } from "@mui/icons-material";
 import {
@@ -35,7 +34,7 @@ const MyPostWidget = ({ picturePath }) => {
   const token = useSelector((state) => state.token);
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
   const mediumMain = palette.neutral.mediumMain;
-  const medium = palette.neutral.meidum;
+  const medium = palette.neutral.medium;
   const handlePost = async () => {
     const formData = new FormData();
     formData.append("userId", _id);
@@ -123,7 +122,7 @@ const MyPostWidget = ({ picturePath }) => {
           <ImageOutlined sx={{ color: mediumMain }} />
           <Typography
             color={mediumMain}
-            sx={{ "&:hover": { cursor: "pointer", color: medium } }}
+            sx={{ "&:hover": { cursor: "pointer", color: mediumMain } }}
           >
             Image
           </Typography>

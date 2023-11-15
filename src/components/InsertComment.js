@@ -13,6 +13,7 @@ const InsertComment = ({
   const [comment, setComment] = useState("");
   const handleComment = async () => {
     if (comment.trim() === "") return;
+    setComment("");
     const res = await fetch(`http://localhost:3001/post/comment/${postId}`, {
       method: "POST",
       headers: {
@@ -26,13 +27,12 @@ const InsertComment = ({
     const comments = await res.json();
     if (comments.length > 0) getAndSetComments(comments);
     setCommentsCount(comments.length);
-    setComment("");
   };
   const handleKeyDown = (e) => {
     if (e.key === "Enter") return handleComment();
   };
   return (
-    <Box mt=".5rem" display="flex" gap=".4rem">
+    <Box mt="1rem" display="flex" gap=".4rem">
       <UserImage image={userPicturePath} size="36px" />
       <Box
         display="flex"
