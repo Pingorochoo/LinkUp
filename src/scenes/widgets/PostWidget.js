@@ -126,7 +126,8 @@ const PostWidget = ({
             return (
               <Box key={`${name}-${i}`}>
                 <Comment
-                  userId={loggedInUserId}
+                  userId={user.userId}
+                  loggedInUserId={loggedInUserId}
                   commentId={_id}
                   userPicturePath={user.picturePath}
                   name={user.name}
