@@ -1,31 +1,17 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Typography, useMediaQuery } from "@mui/material";
 import UserImage from "./UserImage";
 import { useTheme } from "@emotion/react";
-const CommentTarget = ({ comment, name }) => {
+import { useState } from "react";
+const CommentTarget = ({ comment, name, handleLikeComment, isLiked }) => {
   const { palette } = useTheme();
   const paddingLeft = "0.8rem";
-  const InteractionButton = ({ children }) => (
-    <Button
-      sx={{
-        padding: "0px",
-        textTransform: "none",
-        color: palette.neutral.mediumMain,
-        fontWeight: "bold",
-        display: "inline-block",
-        minWidth: 0,
-        marginInline: ".5rem",
-        "&:hover": {
-          backgroundColor: "transparent",
-          textDecoration: "underline",
-          textDecorationColor: palette.neutral.mediumMain,
-        },
-      }}
-    >
-      {children}
-    </Button>
-  );
+  const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
   return (
-    <Box display="flex" flexDirection="column">
+    <Box
+      display="flex"
+      flexDirection="column"
+      maxWidth={isNonMobileScreens ? "calc(100% - 44px)" : undefined}
+    >
       <Box
         display="flex"
         flexDirection="column"
@@ -33,6 +19,7 @@ const CommentTarget = ({ comment, name }) => {
           backgroundColor: palette.neutral.light,
           padding: `.4rem ${paddingLeft}`,
           borderRadius: "1.2rem",
+          wordWrap: "break-word",
         }}
       >
         <Typography
@@ -57,18 +44,88 @@ const CommentTarget = ({ comment, name }) => {
         </Typography>
       </Box>
       <Box marginLeft=".3rem">
-        <InteractionButton>Like</InteractionButton>
-        <InteractionButton>Comment</InteractionButton>
+        <Button
+          onClick={() => handleLikeComment()}
+          sx={{
+            padding: "0px",
+            textTransform: "none",
+            color: isLiked ? palette.primary.main : palette.neutral.mediumMain,
+            fontWeight: "bold",
+            display: "inline-block",
+            minWidth: 0,
+            marginInline: ".5rem",
+            "&:hover": {
+              backgroundColor: "transparent",
+              textDecoration: "underline",
+              textDecorationColor: palette.neutral.mediumMain,
+            },
+          }}
+        >
+          Like
+        </Button>
+        <Button
+          sx={{
+            padding: "0px",
+            textTransform: "none",
+            color: palette.neutral.mediumMain,
+            fontWeight: "bold",
+            display: "inline-block",
+            minWidth: 0,
+            marginInline: ".5rem",
+            "&:hover": {
+              backgroundColor: "transparent",
+              textDecoration: "underline",
+              textDecorationColor: palette.neutral.mediumMain,
+            },
+          }}
+        >
+          Comment
+        </Button>
       </Box>
     </Box>
   );
 };
 
-const Comment = ({ userPicturePath, name, children }) => {
+const Comment = ({
+  userId,
+  commentId,
+  userPicturePath,
+  name,
+  children,
+  likes,
+}) => {
+  const likeInitial = likes.includes(userId) ? true : false;
+  const [isLiked, setIsLiked] = useState(likeInitial);
+  // const handleIsLike = () =>
+  //   likes.includes(userId) ? setIsLiked(true) : setIsLiked(false);
+  const handleLikeComment = async () => {
+    if (isLiked) setIsLiked(false);
+    else setIsLiked(true);
+    const response = await fetch(
+      `http://localhost:3001/post/comment/like/${commentId}/${userId}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const json = await response.json();
+    if (json.isLiked && isLiked) setIsLiked(false);
+    else if (!json.isLiked && !isLiked) setIsLiked(true);
+    // const likes = await response.json();
+    // handleIsLike(likes);
+    // handleIsLike(likes.length);
+  };
   return (
     <Box display="flex" justifyContent="flex-start" gap=".5rem">
       <UserImage image={userPicturePath} size="36px" />
-      <CommentTarget comment={children} name={name} />
+      <CommentTarget
+        comment={children}
+        name={name}
+        handleLikeComment={handleLikeComment}
+        isLiked={isLiked}
+      />
     </Box>
   );
 };

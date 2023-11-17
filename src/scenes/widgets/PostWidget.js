@@ -29,12 +29,8 @@ const PostWidget = ({
   const [commentsCount, setCommentsCount] = useState(0);
   const dispatch = useDispatch();
   const token = useSelector((state) => state.token);
-  const {
-    _id: loggedInUserId,
-    picturePath: loggedInUserPicturePath,
-    firstName: loggedInUserfirstName,
-    lastName: loggedInUserlastName,
-  } = useSelector((state) => state.user);
+  const { _id: loggedInUserId, picturePath: loggedInUserPicturePath } =
+    useSelector((state) => state.user);
   const isLiked = Boolean(likes[loggedInUserId]);
   const likeCount = Object.keys(likes).length;
   const { palette } = useTheme();
@@ -126,10 +122,12 @@ const PostWidget = ({
       </FlexBetween>
       {isComments && (
         <Box display="flex" flexDirection="column" gap=".2rem">
-          {comments.map(({ comment, user, likes, picturePath }, i) => {
+          {comments.map(({ _id, comment, user, likes, picturePath }, i) => {
             return (
               <Box key={`${name}-${i}`}>
                 <Comment
+                  userId={loggedInUserId}
+                  commentId={_id}
                   userPicturePath={user.picturePath}
                   name={user.name}
                   location={user.location}
