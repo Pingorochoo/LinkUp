@@ -62,8 +62,8 @@ const UserWidget = ({ userId, picturePath }) => {
               color={dark}
               fontWeight="500"
               sx={{
-                color: palette.primary.light,
-                cursos: "pointer",
+                color: palette.primary.light2,
+                cursor: "pointer",
               }}
             >
               {firstName} {lastName}

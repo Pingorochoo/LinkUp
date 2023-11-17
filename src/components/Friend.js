@@ -46,7 +46,7 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
             variant="h5"
             fontWeight="500"
             sx={{
-              color: palette.primary.light,
+              color: palette.primary.light2,
               cursor: "pointer",
             }}
           >
