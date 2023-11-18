@@ -43,7 +43,7 @@ const MyPostWidget = ({ picturePath }) => {
       formData.append("picture", image);
       formData.append("picturePath", image.name);
     }
-    const response = await fetch(`http://localhost:3001/post`, {
+    const response = await fetch(`https://linkup-api-pojo.onrender.com/post`, {
       method: "POST",
       headers: { Authorization: `Bearer ${token}` },
       body: formData,

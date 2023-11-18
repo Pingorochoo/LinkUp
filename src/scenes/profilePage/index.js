@@ -15,7 +15,7 @@ const ProfilePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
 
   const getUser = async () => {
-    const response = await fetch(`http://localhost:3001/auth/${userId}`, {
+    const response = await fetch(`https://linkup-api-pojo.onrender.com/auth/${userId}`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });

@@ -19,7 +19,7 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
   const isFriend = friends.find((friend) => friend._id === friendId);
   const patchFriend = async () => {
     const response = await fetch(
-      `http://localhost:3001/auth/${_id}/${friendId}`,
+      `https://linkup-api-pojo.onrender.com/auth/${_id}/${friendId}`,
       {
         method: "PATCH",
         headers: {

@@ -113,7 +113,7 @@ const Comment = ({
     if (isLiked) setIsLiked(false);
     else setIsLiked(true);
     const response = await fetch(
-      `http://localhost:3001/post/comment/like/${commentId}/${loggedInUserId}`,
+      `https://linkup-api-pojo.onrender.com/post/comment/like/${commentId}/${loggedInUserId}`,
       {
         method: "PATCH",
         headers: {

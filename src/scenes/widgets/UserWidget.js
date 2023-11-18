@@ -22,7 +22,7 @@ const UserWidget = ({ userId, picturePath }) => {
   const medium = palette?.neutral?.medium;
   const main = palette?.nautral?.main;
   const getUser = async () => {
-    const response = await fetch(`http://localhost:3001/auth/${userId}`, {
+    const response = await fetch(`https://linkup-api-pojo.onrender.com/auth/${userId}`, {
       //switch auth with user
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },

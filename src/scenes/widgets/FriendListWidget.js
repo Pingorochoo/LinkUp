@@ -14,7 +14,7 @@ const FriendListWidget = ({ userId }) => {
 
   const getFriends = async () => {
     const response = await fetch(
-      `http://localhost:3001/auth/${userId}/friends`,
+      `https://linkup-api-pojo.onrender.com/auth/${userId}/friends`,
       {
         method: "GET",
         headers: { Authorization: `bearer ${token}` },

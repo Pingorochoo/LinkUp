@@ -8,7 +8,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
   const posts = useSelector((state) => state.posts);
   const token = useSelector((state) => state.token);
   const getPosts = async () => {
-    const response = await fetch("http://localhost:3001/post", {
+    const response = await fetch("https://linkup-api-pojo.onrender.com/post", {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -16,7 +16,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
     dispatch(setPosts({ posts: data }));
   };
   const getUserPosts = async () => {
-    const response = await fetch(`http://localhost:3001/post/${userId}`, {
+    const response = await fetch(`https://linkup-api-pojo.onrender.com/post/${userId}`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });

@@ -14,7 +14,7 @@ const InsertComment = ({
   const handleComment = async () => {
     if (comment.trim() === "") return;
     setComment("");
-    const res = await fetch(`http://localhost:3001/post/comment/${postId}`, {
+    const res = await fetch(`https://linkup-api-pojo.onrender.com/post/comment/${postId}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json", // Establece el encabezado para indicar que estás enviando JSON en el cuerpo.
